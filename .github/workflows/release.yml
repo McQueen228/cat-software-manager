@@ -1,0 +1,44 @@
+name: Build release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Install Inno Setup
+        shell: powershell
+        run: choco install innosetup --yes --no-progress
+
+      - name: Build installer and portable package
+        shell: powershell
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          .\scripts\build.ps1 -Version $version -SkipTests
+
+      - name: Publish GitHub release
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          gh release create "${{ github.ref_name }}" `
+            ".\artifacts\installer\CatSoftwareManager-Setup-v$version-x64.exe" `
+            ".\artifacts\CatSoftwareManager-Portable-v$version-x64.zip" `
+            --title "猫猫的软件管理器 v$version" `
+            --generate-notes
