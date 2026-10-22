@@ -1,0 +1,174 @@
+{
+  "sources": [
+    {
+      "id": "chrome",
+      "name": "Google Chrome 官方版本服务",
+      "match": ["^Google Chrome$"],
+      "publisher": "Google",
+      "wingetId": "Google.Chrome",
+      "homepage": "https://www.google.com/chrome/",
+      "updatePage": "https://www.google.com/chrome/",
+      "type": "chromeVersions",
+      "url": "https://versionhistory.googleapis.com/v1/chrome/platforms/win64/channels/stable/versions?page_size=1"
+    },
+    {
+      "id": "edge",
+      "name": "Microsoft Edge 官方版本服务",
+      "match": ["^Microsoft Edge$"],
+      "publisher": "Microsoft",
+      "wingetId": "Microsoft.Edge",
+      "homepage": "https://www.microsoft.com/edge",
+      "updatePage": "https://www.microsoft.com/edge",
+      "type": "edgeUpdate",
+      "url": "https://edgeupdates.microsoft.com/api/products"
+    },
+    {
+      "id": "vscode",
+      "name": "Visual Studio Code 官方版本服务",
+      "match": ["^Microsoft Visual Studio Code( \\(User\\))?$", "^Visual Studio Code$"],
+      "publisher": "Microsoft",
+      "wingetId": "Microsoft.VisualStudioCode",
+      "homepage": "https://code.visualstudio.com/",
+      "updatePage": "https://code.visualstudio.com/download",
+      "type": "vscodeUpdate",
+      "url": "https://update.code.visualstudio.com/api/update/win32-x64-user/stable/latest"
+    },
+    {
+      "id": "firefox",
+      "name": "Mozilla Firefox 官方版本服务",
+      "match": ["^Mozilla Firefox"],
+      "publisher": "Mozilla",
+      "wingetId": "Mozilla.Firefox",
+      "homepage": "https://www.mozilla.org/firefox/",
+      "updatePage": "https://www.mozilla.org/firefox/new/",
+      "type": "regex",
+      "url": "https://product-details.mozilla.org/1.0/firefox_versions.json",
+      "pattern": "\"LATEST_FIREFOX_VERSION\"\\s*:\\s*\"(?<version>[^\"]+)\""
+    },
+    {
+      "id": "git-windows",
+      "name": "Git for Windows 官方发布页",
+      "match": ["^Git$"],
+      "publisher": "Git Development Community",
+      "wingetId": "Git.Git",
+      "homepage": "https://gitforwindows.org/",
+      "updatePage": "https://gitforwindows.org/",
+      "type": "githubPage",
+      "url": "https://github.com/git-for-windows/git/releases/latest"
+    },
+    {
+      "id": "sevenzip",
+      "name": "7-Zip 官方网站",
+      "match": ["^7-Zip"],
+      "publisher": "Igor Pavlov",
+      "wingetId": "7zip.7zip",
+      "homepage": "https://www.7-zip.org/",
+      "updatePage": "https://www.7-zip.org/download.html",
+      "type": "regex",
+      "url": "https://www.7-zip.org/download.html",
+      "pattern": "7-Zip\\s+(?<version>[0-9]+\\.[0-9]+)",
+      "pickHighest": true
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js 官方发行目录",
+      "match": ["^Node\\.js$"],
+      "publisher": "Node.js",
+      "wingetId": "OpenJS.NodeJS",
+      "homepage": "https://nodejs.org/",
+      "updatePage": "https://nodejs.org/en/download",
+      "type": "regex",
+      "url": "https://nodejs.org/dist/index.json",
+      "pattern": "\"version\"\\s*:\\s*\"v(?<version>[0-9]+\\.[0-9]+\\.[0-9]+)\""
+    },
+    {
+      "id": "python",
+      "name": "Python 官方发行目录",
+      "match": ["^Python 3\\."],
+      "publisher": "Python Software Foundation",
+      "homepage": "https://www.python.org/",
+      "updatePage": "https://www.python.org/downloads/windows/",
+      "type": "pythonLatest",
+      "url": "https://www.python.org/api/v2/downloads/release/?is_published=true&pre_release=false"
+    },
+    {
+      "id": "obs",
+      "name": "OBS Studio 官方发布页",
+      "match": ["^OBS Studio$"],
+      "publisher": "OBS Project",
+      "wingetId": "OBSProject.OBSStudio",
+      "homepage": "https://obsproject.com/",
+      "updatePage": "https://obsproject.com/download",
+      "type": "githubPage",
+      "url": "https://github.com/obsproject/obs-studio/releases/latest"
+    },
+    {
+      "id": "powertoys",
+      "name": "PowerToys 官方发布页",
+      "match": ["^PowerToys"],
+      "publisher": "Microsoft",
+      "wingetId": "Microsoft.PowerToys",
+      "homepage": "https://github.com/microsoft/PowerToys",
+      "updatePage": "https://github.com/microsoft/PowerToys/releases/latest",
+      "type": "githubPage",
+      "url": "https://github.com/microsoft/PowerToys/releases/latest"
+    },
+    {
+      "id": "arduino-ide",
+      "name": "Arduino IDE 官方发布页",
+      "match": ["^Arduino IDE"],
+      "publisher": "Arduino",
+      "wingetId": "ArduinoSA.IDE.stable",
+      "homepage": "https://www.arduino.cc/en/software",
+      "updatePage": "https://www.arduino.cc/en/software",
+      "type": "githubPage",
+      "url": "https://github.com/arduino/arduino-ide/releases/latest"
+    },
+    {
+      "id": "bambu-studio",
+      "name": "Bambu Studio 官方发布页",
+      "match": ["^Bambu Studio$"],
+      "publisher": "Bambulab",
+      "wingetId": "Bambulab.BambuStudio",
+      "homepage": "https://github.com/bambulab/BambuStudio",
+      "updatePage": "https://github.com/bambulab/BambuStudio/releases/latest",
+      "type": "githubPage",
+      "url": "https://github.com/bambulab/BambuStudio/releases/latest"
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian 官方发布页",
+      "match": ["^Obsidian$"],
+      "publisher": "Obsidian",
+      "wingetId": "Obsidian.Obsidian",
+      "homepage": "https://obsidian.md/",
+      "updatePage": "https://obsidian.md/download",
+      "type": "githubPage",
+      "url": "https://github.com/obsidianmd/obsidian-releases/releases/latest"
+    },
+    {
+      "id": "notepad-plus-plus",
+      "name": "Notepad++ 官方发布页",
+      "match": ["^Notepad\\+\\+"],
+      "publisher": "Notepad++",
+      "wingetId": "Notepad++.Notepad++",
+      "homepage": "https://notepad-plus-plus.org/",
+      "updatePage": "https://notepad-plus-plus.org/downloads/",
+      "type": "githubPage",
+      "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/latest"
+    },
+    {
+      "id": "blender",
+      "name": "Blender 官方发行目录",
+      "match": ["^Blender$"],
+      "publisher": "Blender Foundation",
+      "wingetId": "BlenderFoundation.Blender",
+      "homepage": "https://www.blender.org/",
+      "updatePage": "https://www.blender.org/download/",
+      "type": "regex",
+      "url": "https://download.blender.org/release/",
+      "pattern": "Blender(?<version>[0-9]+\\.[0-9]+(?:\\.[0-9]+)?)/",
+      "pickHighest": true
+    }
+  ]
+}
