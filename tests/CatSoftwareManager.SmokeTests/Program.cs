@@ -110,6 +110,12 @@ Google Chrome                              Google.Chrome              156.0.0
                 !string.IsNullOrWhiteSpace(application.LatestVersion)),
             "Chrome received a detected latest version",
             failures);
+        var cachedResult = scanner.LoadCachedResult();
+        Assert(
+            cachedResult is not null &&
+            cachedResult.Applications.Count == result.Applications.Count,
+            "Scan cache round-trips all applications",
+            failures);
 
         Console.WriteLine($"Discovered {result.Applications.Count} applications.");
         foreach (var application in result.Applications.Take(30))

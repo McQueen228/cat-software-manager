@@ -307,6 +307,27 @@ public sealed class MainViewModel : ObservableObject
         }
     }
 
+    public void LoadCachedScan()
+    {
+        var cached = _scanService.LoadCachedResult();
+        if (cached is null || cached.Applications.Count == 0)
+        {
+            return;
+        }
+
+        _lastCheckedAt = cached.CheckedAt;
+        _allRows.Clear();
+        foreach (var application in cached.Applications)
+        {
+            _allRows.Add(new AppRowViewModel(application, _localization));
+        }
+
+        ApplyFilter();
+        FooterText =
+            $"{_localization["Ready"]} · " +
+            _localization.Format("LastChecked", cached.CheckedAt.LocalDateTime.ToString("g"));
+    }
+
     public async Task<AutomaticCheckState> TryAutomaticCheckAsync()
     {
         var today = DateTime.Today.ToString("yyyy-MM-dd");
@@ -438,20 +459,7 @@ public sealed class MainViewModel : ObservableObject
     {
         Settings.IgnoredApps.Remove(row.Id);
         Settings.SkippedVersions.Remove(row.Id);
-        if (string.IsNullOrWhiteSpace(row.Application.LatestVersion) ||
-            !VersionComparer.TryCompare(
-                row.Application.CurrentVersion,
-                row.Application.LatestVersion,
-                out var comparison))
-        {
-            row.Application.Status = UpdateStatus.Unknown;
-        }
-        else
-        {
-            row.Application.Status = comparison < 0
-                ? UpdateStatus.UpdateAvailable
-                : UpdateStatus.UpToDate;
-        }
+        SoftwareScanService.EvaluateStatus(row.Application, Settings);
 
         _settingsService.Save();
         row.Refresh();

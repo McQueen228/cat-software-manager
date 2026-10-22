@@ -52,8 +52,9 @@ public sealed class AppRowViewModel : ObservableObject
 
     public bool UsesOfficialDownloadPage =>
         Application.SourceKind == VersionSourceKind.Official &&
-        !string.IsNullOrWhiteSpace(Application.WingetLatestVersion) &&
-        VersionComparer.IsNewer(Application.WingetLatestVersion, Application.LatestVersion);
+        (string.IsNullOrWhiteSpace(Application.WingetId) ||
+         ( !string.IsNullOrWhiteSpace(Application.WingetLatestVersion) &&
+           VersionComparer.IsNewer(Application.WingetLatestVersion, Application.LatestVersion)));
 
     public bool CanIgnore => Application.Status == UpdateStatus.UpdateAvailable;
 

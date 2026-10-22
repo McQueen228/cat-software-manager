@@ -36,7 +36,9 @@ public sealed class InstalledApplicationScanner
         new(@"\bLogin Manager$", RegexOptions.IgnoreCase | RegexOptions.Compiled),
         new(@"\bControl Panels$", RegexOptions.IgnoreCase | RegexOptions.Compiled),
         new(@"\bAddOn$", RegexOptions.IgnoreCase | RegexOptions.Compiled),
-        new(@"^Lenovo Vantage Service$", RegexOptions.IgnoreCase | RegexOptions.Compiled)
+        new(@"^Lenovo Vantage Service$", RegexOptions.IgnoreCase | RegexOptions.Compiled),
+        new(@"^猫猫的软件管理器$", RegexOptions.IgnoreCase | RegexOptions.Compiled),
+        new(@"^Cat Software Manager$", RegexOptions.IgnoreCase | RegexOptions.Compiled)
     ];
 
     public IReadOnlyList<ApplicationInfo> Scan()

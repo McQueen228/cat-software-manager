@@ -18,11 +18,13 @@ public sealed class SettingsService
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "CatSoftwareManager");
         SettingsPath = Path.Combine(AppDataDirectory, "settings.json");
+        ScanCachePath = Path.Combine(AppDataDirectory, "scan-cache.json");
         LogDirectory = Path.Combine(AppDataDirectory, "logs");
     }
 
     public string AppDataDirectory { get; }
     public string SettingsPath { get; }
+    public string ScanCachePath { get; }
     public string LogDirectory { get; }
     public AppSettings Current { get; private set; } = new();
 

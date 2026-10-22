@@ -76,6 +76,7 @@ public partial class App : System.Windows.Application
             localization,
             startupService,
             themeService);
+        _viewModel.LoadCachedScan();
         TraceStartup("ViewModel created");
         _flyoutWindow = new MainWindow(_viewModel, _settingsService);
         TraceStartup("MainWindow created");

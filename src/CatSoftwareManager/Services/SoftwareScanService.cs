@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using CatSoftwareManager.Models;
 
@@ -7,6 +8,10 @@ namespace CatSoftwareManager.Services;
 
 public sealed class SoftwareScanService
 {
+    private static readonly JsonSerializerOptions CacheJsonOptions = new()
+    {
+        WriteIndented = false
+    };
     private static readonly Regex ParentheticalNoise = new(
         @"\((?:x64|x86|user|preview|64-bit|32-bit)\)",
         RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -88,7 +93,7 @@ public sealed class SoftwareScanService
             EvaluateStatus(application, settings);
         }
 
-        return new ScanResult
+        var scanResult = new ScanResult
         {
             Applications = applications
                 .OrderBy(app => app.Status == UpdateStatus.UpdateAvailable ? 0 : 1)
@@ -96,6 +101,39 @@ public sealed class SoftwareScanService
                 .ToArray(),
             CheckedAt = DateTimeOffset.Now
         };
+        SaveCache(scanResult);
+        return scanResult;
+    }
+
+    public ScanResult? LoadCachedResult()
+    {
+        try
+        {
+            if (!File.Exists(_settings.ScanCachePath))
+            {
+                return null;
+            }
+
+            var result = JsonSerializer.Deserialize<ScanResult>(
+                File.ReadAllText(_settings.ScanCachePath),
+                CacheJsonOptions);
+            if (result is null)
+            {
+                return null;
+            }
+
+            foreach (var application in result.Applications)
+            {
+                EvaluateStatus(application, _settings.Current);
+            }
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _settings.WriteLog("Scan cache load failed", ex);
+            return null;
+        }
     }
 
     private static void EnrichWithWinget(
@@ -153,7 +191,7 @@ public sealed class SoftwareScanService
         }
     }
 
-    private static void EvaluateStatus(ApplicationInfo application, AppSettings settings)
+    internal static void EvaluateStatus(ApplicationInfo application, AppSettings settings)
     {
         if (settings.IgnoredApps.Contains(application.Id))
         {
@@ -198,5 +236,20 @@ public sealed class SoftwareScanService
             .Where(character => char.IsLetterOrDigit(character))
             .Select(char.ToLowerInvariant)
             .ToArray());
+    }
+
+    private void SaveCache(ScanResult result)
+    {
+        try
+        {
+            Directory.CreateDirectory(_settings.AppDataDirectory);
+            var tempPath = _settings.ScanCachePath + ".tmp";
+            File.WriteAllText(tempPath, JsonSerializer.Serialize(result, CacheJsonOptions));
+            File.Move(tempPath, _settings.ScanCachePath, true);
+        }
+        catch (Exception ex)
+        {
+            _settings.WriteLog("Scan cache save failed", ex);
+        }
     }
 }
