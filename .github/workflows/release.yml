@@ -32,7 +32,7 @@ jobs:
         run: choco install innosetup --yes --no-progress
 
       - name: Build installer and portable package
-        shell: powershell
+        shell: pwsh
         run: |
           $tag = "${{ inputs.tag }}"
           if ([string]::IsNullOrWhiteSpace($tag)) {
@@ -42,7 +42,7 @@ jobs:
           .\scripts\build.ps1 -Version $version -SkipTests
 
       - name: Publish GitHub release
-        shell: powershell
+        shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
