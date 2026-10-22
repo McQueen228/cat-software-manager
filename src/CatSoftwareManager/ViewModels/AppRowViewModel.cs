@@ -40,8 +40,6 @@ public sealed class AppRowViewModel : ObservableObject
 
     public string SourceText => Application.SourceKind switch
     {
-        VersionSourceKind.Official when !string.IsNullOrWhiteSpace(Application.OfficialSourceName) =>
-            $"{_localization["SourceOfficial"]} · {Application.OfficialSourceName}",
         VersionSourceKind.Official => _localization["SourceOfficial"],
         VersionSourceKind.Winget => _localization["SourceWinget"],
         _ => _localization["SourceUnknown"]
